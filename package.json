@@ -1,0 +1,27 @@
+{
+  "name": "ethsplitter",
+  "version": "1.0.0",
+  "description": "Contracts to distribute ETH to recipients automatically",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "solidity-coverage": "^0.7.16",
+    "truffle-assertions": "^0.9.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gretzke/EthSplitter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gretzke/EthSplitter/issues"
+  },
+  "homepage": "https://github.com/gretzke/EthSplitter#readme"
+}
