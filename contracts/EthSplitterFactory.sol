@@ -11,7 +11,7 @@ contract EthSplitterFactory {
     /// @notice creates a new splitter contract
     /// @dev sender is set as owner in the new contract
     /// @dev only one splitter contract can exist per user
-    function createSplitter() external {
+    function createSplitter() external virtual {
         require(
             splitters[msg.sender] == address(0),
             "every user can only create one splitter"

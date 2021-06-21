@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for contracts/EthAndTokenSplitter.sol</title>
+    <title>Code coverage report for contracts/EthSplitterFactoryV2.sol</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> EthAndTokenSplitter.sol
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> EthSplitterFactoryV2.sol
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/12</span>
+        <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">83.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>5/6</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>12/12</span>
+        <span class='fraction'>6/6</span>
       </div>
     </div>
   </div>
@@ -75,22 +75,7 @@
 30
 31
 32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+33</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -106,70 +91,52 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity 0.8.4;
 &nbsp;
-import "./EthSplitter.sol";
-import "./interfaces/IERC677TransferReceiver.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./EthSplitterFactory.sol";
+import "@openzeppelin/contracts/proxy/Clones.sol";
 &nbsp;
-contract EthAndTokenSplitter is EthSplitter, IERC677TransferReceiver {
-    event TokensSplit(uint256 amount);
+interface IEthSplitterClonable {
+    function initialize(address _owner) external;
+}
 &nbsp;
-    constructor(address _owner) EthSplitter(_owner) {}
+/// @notice uses EIP-1167 to use a minimal proxy to lower gas fees on deployment
+contract EthSplitterFactoryV2 is EthSplitterFactory {
+    address immutable implementation;
 &nbsp;
-    /// @notice splits incoming tokens automatically
-    /// @dev if a token transfer to a recipient fails, the token transfer will fail
-    function tokenFallback(
-        address from,
-        uint256 amount,
-        bytes calldata data
-    ) external override returns (bool) {
-        splitTokens(msg.sender);
-        return true;
+    constructor(address _implementation) {
+        implementation = _implementation;
     }
 &nbsp;
-    /// @notice splits ERC20 token balance among all recipients
-    /// @dev does nothing if amount of recipients or amount to transfer is 0
-    /// @dev any rest is not distributed and kept inside the contract
-    /// @param _tokenContract address of the token smart contract
-    function splitTokens(address _tokenContract) public nonReentrant {
-        IERC20 token = IERC20(_tokenContract);
-        if (recipients.length == 0) {
-            return;
-        }
-        uint256 amount = token.balanceOf(address(this)) / recipients.length;
-        if (amount == 0) {
-            return;
-        }
-        for (uint256 i = 0; i &lt; recipients.length; i++) {
-            bool success = token.transfer(recipients[i], amount);
-            <span class="missing-if-branch" title="else path not taken" >E</span>require(success, "a transfer failed");
-        }
-        emit TokensSplit(amount * recipients.length);
+    /// @notice creates a new splitter contract clone
+    /// @dev sender is set as owner in the new contract
+    /// @dev only one splitter contract can exist per user
+    function createSplitter() external override {
+        require(
+            splitters[msg.sender] == address(0),
+            "every user can only create one splitter"
+        );
+        address splitter = Clones.clone(implementation);
+        IEthSplitterClonable(splitter).initialize(msg.sender);
+        splitters[msg.sender] = splitter;
+        emit SplitterCreated(splitter);
     }
 }
 &nbsp;</pre></td></tr>

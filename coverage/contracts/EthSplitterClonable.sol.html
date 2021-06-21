@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for contracts/EthSplitter.sol</title>
+    <title>Code coverage report for contracts/EthSplitterClonable.sol</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> EthSplitter.sol
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> EthSplitterClonable.sol
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>22/22</span>
+        <span class='fraction'>24/24</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>5/5</span>
+        <span class='fraction'>6/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>23/23</span>
+        <span class='fraction'>25/25</span>
       </div>
     </div>
   </div>
@@ -124,7 +124,18 @@
 79
 80
 81
-82</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,6 +150,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,10 +193,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10×</span>
 <span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-yes">8×</span>
-<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -210,8 +232,10 @@ pragma solidity 0.8.4;
 &nbsp;
 import "./Owned.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 &nbsp;
-contract EthSplitter is Owned, ReentrancyGuard {
+/// @notice contract that is cloned with EthSplitterFactoryV2
+contract EthSplitterClonable is Owned, ReentrancyGuard, Initializable {
     address[] public recipients;
     // indices are stored as i + 1, as 0 is the default value
     mapping(address =&gt; uint256) public indices;
@@ -220,7 +244,16 @@ contract EthSplitter is Owned, ReentrancyGuard {
     event AddedRecipient(address indexed recipient);
     event RemovedRecipient(address indexed recipient);
 &nbsp;
-    constructor(address _owner) Owned(_owner) {}
+    constructor() Owned(address(0)) {}
+&nbsp;
+    /// @notice initializes the contract
+    /// @dev for clonable contracts a separate initialize function is required instead of a constructor
+    /// @dev only callable once
+    /// @param _owner owner of the splitter contract
+    function initialize(address _owner) public initializer {
+        owner = _owner;
+        emit OwnershipTransferred(address(0), _owner);
+    }
 &nbsp;
     /// @notice enables smart contract to receive eth
     receive() external payable {
