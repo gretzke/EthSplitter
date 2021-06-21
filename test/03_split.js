@@ -27,7 +27,7 @@ contract('EthSplitter', async (accounts) => {
     it('split function should transfer funds accordingly', async () => {
       const balance1 = web3.utils.toBN(await web3.eth.getBalance(accounts[1]));
       const balance2 = web3.utils.toBN(await web3.eth.getBalance(accounts[2]));
-      await instance.split();
+      const tx = await instance.split();
       assert.strictEqual(
         web3.utils
           .toBN(await web3.eth.getBalance(accounts[1]))
@@ -42,6 +42,9 @@ contract('EthSplitter', async (accounts) => {
           .toString(),
         '5'
       );
+      truffleAssertions.eventEmitted(tx, 'EthSplit', (ev) => {
+        return ev.amount.toString() === '10';
+      });
     });
 
     it('split should fail if a transfer to a recipient fails', async () => {

@@ -9,6 +9,7 @@ contract EthSplitter is Owned, ReentrancyGuard {
     // indices are stored as i + 1, as 0 is the default value
     mapping(address => uint256) public indices;
 
+    event EthSplit(uint256 amount);
     event AddedRecipient(address indexed recipient);
     event RemovedRecipient(address indexed recipient);
 
@@ -36,6 +37,7 @@ contract EthSplitter is Owned, ReentrancyGuard {
             (bool success, ) = recipients[i].call{value: amount}("");
             require(success, "a transfer failed");
         }
+        emit EthSplit(amount * recipients.length);
     }
 
     /// @notice adds a new recipient
