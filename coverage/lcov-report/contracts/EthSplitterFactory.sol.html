@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for contracts/Owned.sol</title>
+    <title>Code coverage report for contracts/EthSplitterFactory.sol</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> Owned.sol
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> EthSplitterFactory.sol
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/7</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/4</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>4/4</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/8</span>
+        <span class='fraction'>4/4</span>
       </div>
     </div>
   </div>
@@ -66,30 +66,7 @@
 21
 22
 23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+24</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -103,82 +80,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-yes">4×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20×</span>
-<span class="cline-any cline-yes">14×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity 0.8.4;
 &nbsp;
-contract Owned {
-    address public owner;
-    address public proposedOwner;
+import "./EthSplitter.sol";
 &nbsp;
-    event OwnershipTransferred(
-        address indexed previousOwner,
-        address indexed newOwner
-    );
+contract EthSplitterFactory {
+    mapping(address =&gt; address) public splitters;
 &nbsp;
-    /**
-     * @dev Initializes the contract setting the initial owner.
-     */
-    constructor(address _owner) {
-        owner = _owner;
-        emit OwnershipTransferred(address(0), _owner);
-    }
+    event SplitterCreated(address indexed splitter);
 &nbsp;
-    /**
-     * @dev Throws if called by any account other than the owner.
-     */
-    modifier onlyOwner() virtual {
-        require(msg.sender == owner);
-        _;
-    }
-&nbsp;
-    /**
-     * @dev propeses a new owner
-     * Can only be called by the current owner.
-     */
-    function proposeOwner(address payable _newOwner) external onlyOwner {
-        proposedOwner = _newOwner;
-    }
-&nbsp;
-    /**
-     * @dev claims ownership of the contract
-     * Can only be called by the new proposed owner.
-     */
-    function claimOwnership() external {
-        require(msg.sender == proposedOwner);
-        emit OwnershipTransferred(owner, proposedOwner);
-        owner = proposedOwner;
+    /// @notice creates a new splitter contract
+    /// @dev sender is set as owner in the new contract
+    /// @dev only one splitter contract can exist per user
+    function createSplitter() external {
+        require(
+            splitters[msg.sender] == address(0),
+            "every user can only create one splitter"
+        );
+        address splitter = address(new EthSplitter(msg.sender));
+        splitters[msg.sender] = splitter;
+        emit SplitterCreated(splitter);
     }
 }
 &nbsp;</pre></td></tr>
