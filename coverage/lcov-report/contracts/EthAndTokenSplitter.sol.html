@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for contracts/Owned.sol</title>
+    <title>Code coverage report for contracts/EthAndTokenSplitter.sol</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> Owned.sol
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> EthAndTokenSplitter.sol
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/7</span>
+        <span class='fraction'>12/12</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">83.33% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/4</span>
+        <span class='fraction'>5/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>4/4</span>
+        <span class='fraction'>3/3</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/8</span>
+        <span class='fraction'>12/12</span>
       </div>
     </div>
   </div>
@@ -86,10 +86,7 @@
 41
 42
 43
-44
-45
-46
-47</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+44</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -101,20 +98,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">22×</span>
-<span class="cline-any cline-yes">16×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -123,62 +106,70 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity 0.8.4;
 &nbsp;
-contract Owned {
-    address public owner;
-    address public proposedOwner;
+import "./EthSplitter.sol";
+import "./interfaces/IERC677TransferReceiver.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 &nbsp;
-    event OwnershipTransferred(
-        address indexed previousOwner,
-        address indexed newOwner
-    );
+contract EthAndTokenSplitter is EthSplitter, IERC677TransferReceiver {
+    event TokensSplit(uint256 amount);
 &nbsp;
-    /**
-     * @dev Initializes the contract setting the initial owner.
-     */
-    constructor(address _owner) {
-        owner = _owner;
-        emit OwnershipTransferred(address(0), _owner);
+    constructor(address _owner) EthSplitter(_owner) {}
+&nbsp;
+    /// @notice splits incoming tokens automatically
+    /// @dev if a token transfer to a recipient fails, the token transfer will fail
+    function tokenFallback(
+        address from,
+        uint256 amount,
+        bytes calldata data
+    ) external override returns (bool) {
+        splitTokens(msg.sender);
+        return true;
     }
 &nbsp;
-    /**
-     * @dev Throws if called by any account other than the owner.
-     */
-    modifier onlyOwner() virtual {
-        require(msg.sender == owner);
-        _;
-    }
-&nbsp;
-    /**
-     * @dev propeses a new owner
-     * Can only be called by the current owner.
-     */
-    function proposeOwner(address payable _newOwner) external onlyOwner {
-        proposedOwner = _newOwner;
-    }
-&nbsp;
-    /**
-     * @dev claims ownership of the contract
-     * Can only be called by the new proposed owner.
-     */
-    function claimOwnership() external {
-        require(msg.sender == proposedOwner);
-        emit OwnershipTransferred(owner, proposedOwner);
-        owner = proposedOwner;
+    /// @notice splits ERC20 token balance among all recipients
+    /// @dev does nothing if amount of recipients or amount to transfer is 0
+    /// @dev any rest is not distributed and kept inside the contract
+    /// @param _tokenContract address of the token smart contract
+    function splitTokens(address _tokenContract) public nonReentrant {
+        IERC20 token = IERC20(_tokenContract);
+        if (recipients.length == 0) {
+            return;
+        }
+        uint256 amount = token.balanceOf(address(this)) / recipients.length;
+        if (amount == 0) {
+            return;
+        }
+        for (uint256 i = 0; i &lt; recipients.length; i++) {
+            bool success = token.transfer(recipients[i], amount);
+            <span class="missing-if-branch" title="else path not taken" >E</span>require(success, "a transfer failed");
+        }
+        emit TokensSplit(amount * recipients.length);
     }
 }
 &nbsp;</pre></td></tr>

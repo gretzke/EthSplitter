@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for contracts/Owned.sol</title>
+    <title>Code coverage report for contracts/mock/ERC677.sol</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,28 +16,28 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> Owned.sol
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/mock/</a> ERC677.sol
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">87.5% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>7/7</span>
+        <span class='fraction'>7/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>4/4</span>
+        <span class='fraction'>1/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>4/4</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/8</span>
+        <span class='fraction'>7/7</span>
       </div>
     </div>
   </div>
@@ -89,7 +89,10 @@
 44
 45
 46
-47</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+47
+48
+49
+50</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -97,24 +100,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">22×</span>
-<span class="cline-any cline-yes">16×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -130,55 +115,79 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
-pragma solidity 0.8.4;
+// source https://github.com/rsksmart/erc677
+pragma solidity ^0.8.0;
 &nbsp;
-contract Owned {
-    address public owner;
-    address public proposedOwner;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "../interfaces/IERC677.sol";
+import "../interfaces/IERC677TransferReceiver.sol";
 &nbsp;
-    event OwnershipTransferred(
-        address indexed previousOwner,
-        address indexed newOwner
-    );
-&nbsp;
-    /**
-     * @dev Initializes the contract setting the initial owner.
-     */
-    constructor(address _owner) {
-        owner = _owner;
-        emit OwnershipTransferred(address(0), _owner);
+contract ERC677 is IERC677, ERC20 {
+    constructor(
+        address initialAccount,
+        uint256 initialBalance,
+        string memory tokenName,
+        string memory tokenSymbol
+    ) ERC20(tokenName, tokenSymbol) {
+        _mint(initialAccount, initialBalance);
     }
 &nbsp;
     /**
-     * @dev Throws if called by any account other than the owner.
+     * ERC-677's only method implementation
+     * See https://github.com/ethereum/EIPs/issues/677 for details
      */
-    modifier onlyOwner() virtual {
-        require(msg.sender == owner);
-        _;
-    }
+    function transferAndCall(
+        address to,
+        uint256 value,
+        bytes memory data
+    ) external override returns (bool) {
+        bool result = super.transfer(to, value);
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!result) <span class="cstat-no" title="statement not covered" >return false;</span>
 &nbsp;
-    /**
-     * @dev propeses a new owner
-     * Can only be called by the current owner.
-     */
-    function proposeOwner(address payable _newOwner) external onlyOwner {
-        proposedOwner = _newOwner;
-    }
+        emit Transfer(msg.sender, to, value, data);
 &nbsp;
-    /**
-     * @dev claims ownership of the contract
-     * Can only be called by the new proposed owner.
-     */
-    function claimOwnership() external {
-        require(msg.sender == proposedOwner);
-        emit OwnershipTransferred(owner, proposedOwner);
-        owner = proposedOwner;
+        IERC677TransferReceiver receiver = IERC677TransferReceiver(to);
+        // slither-disable-next-line unused-return
+        receiver.tokenFallback(msg.sender, value, data);
+&nbsp;
+        // IMPORTANT: the ERC-677 specification does not say
+        // anything about the use of the receiver contract's
+        // tokenFallback method return value. Given
+        // its return type matches with this method's return
+        // type, returning it could be a possibility.
+        // We here take the more conservative approach and
+        // ignore the return value, returning true
+        // to signal a succesful transfer despite tokenFallback's
+        // return value -- fact being tokens are transferred
+        // in any case.
+        return true;
     }
 }
 &nbsp;</pre></td></tr>
@@ -187,10 +196,10 @@ contract Owned {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 21 2021 18:53:04 GMT+0200 (Central European Summer Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 21 2021 18:47:52 GMT+0200 (Central European Summer Time)
 </div>
 </div>
-<script src="../prettify.js"></script>
+<script src="../../prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -198,6 +207,6 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../sorter.js"></script>
+<script src="../../sorter.js"></script>
 </body>
 </html>
